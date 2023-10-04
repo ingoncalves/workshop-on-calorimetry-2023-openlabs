@@ -81,15 +81,10 @@ def design_optimal_filter(noise_dataset, optimize=False):
                        0.00000000, -0.02434490, -0.00800683, -0.00243344]])
 
     # Checking if the OF2 is optimize or not
-    if optimize == 0 or not optimize:
-        covariance = np.identity(7)
-    elif optimize == 1 or optimize:
-        if len(noise_dataset) > len(noise_dataset[0]):
-            covariance = np.cov(noise_dataset.transpose())
-        else:
-            covariance = np.cov(noise_dataset)
+    if optimize:
+        covariance = np.cov(noise_dataset)
     else:
-        raise Exception('Options for "optimize" are 0 (False) or 1 (True).')
+        covariance = np.identity(7)
 
     # Making the B matrix
     b = np.concatenate((covariance, pulse, d_pulse, np.ones((1, 7))), axis=0)
